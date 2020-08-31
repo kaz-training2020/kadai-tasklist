@@ -19,7 +19,7 @@ class TasksController extends Controller
         // タスク一覧を取得
         $tasks = Task::all();
 
-        // メッセージ一覧ビューでそれを表示
+        // タスク一覧ビューでそれを表示
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
@@ -30,7 +30,7 @@ class TasksController extends Controller
     {
         $task = new Task;
 
-        // メッセージ作成ビューを表示
+        // タスク作成ビューを表示
         return view('tasks.create', [
             'task' => $task,
         ]);
@@ -39,8 +39,15 @@ class TasksController extends Controller
     // postでtasks/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
-        // メッセージを作成
+        // バリデーション
+        $request->validate([
+            'status' => 'required|max:10',
+            'content' => 'required|max:255',
+        ]);
+        
+        // タスクを作成
         $task = new Task;
+        $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
 
@@ -63,7 +70,7 @@ class TasksController extends Controller
     // getでtasks/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
-        // idの値でメッセージを検索して取得
+        // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
         // タスク編集ビューでそれを表示
@@ -75,9 +82,16 @@ class TasksController extends Controller
     // putまたはpatchでtasks/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
-        // idの値でメッセージを検索して取得
+        // バリデーション
+        $request->validate([
+            'status' => 'required|max:10',
+            'content' => 'required|max:255',
+        ]);
+
+        // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-        // メッセージを更新
+        // タスクを更新
+        $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
 

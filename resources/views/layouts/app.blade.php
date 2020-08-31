@@ -8,6 +8,14 @@
     </head>
 
     <body>
+
+
+        <div class="container">
+            {{-- エラーメッセージ --}}
+            @include('commons.error_messages')
+
+            
+        </div>
         <header class="mb-4">
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
                 {{-- トップページへのリンク --}}
