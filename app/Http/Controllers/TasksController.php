@@ -36,15 +36,16 @@ class TasksController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // postでtasks/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
-        //
+        // メッセージを作成
+        $task = new Task;
+        $task->content = $request->content;
+        $task->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     // getでtasks/idにアクセスされた場合の「取得表示処理」
@@ -71,26 +72,30 @@ class TasksController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // putまたはpatchでtasks/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $task = Task::findOrFail($id);
+        // メッセージを更新
+        $task->content = $request->content;
+        $task->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    // deleteでtasks/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $task = Task::findOrFail($id);
+        // メッセージを削除
+        $task->delete();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
+
 }
